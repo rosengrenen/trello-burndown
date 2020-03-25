@@ -1,0 +1,11 @@
+{
+	"name": "trello-burndown",
+	"main": "index.js",
+	"repository": "git@github.com:rosengrenen/trello-burndown",
+	"author": "Rasmus Rosengren <rasmus.rosengren@pm.me>",
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	]
+}

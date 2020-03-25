@@ -1,0 +1,8 @@
+{
+	"name": "@trello-burndown/frontend",
+	"version": "0.0.0",
+	"repository": "trello-burndown/frontend",
+	"main": "lib/index.js",
+	"license": "MIT",
+	"private": true
+}
