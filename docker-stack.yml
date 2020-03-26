@@ -32,7 +32,6 @@ services:
         - traefik.http.routers.trello-burndown-backend.tls.certresolver=letsencrypt
         - traefik.http.services.trello-burndown-backend.loadbalancer.server.port=3000
 
-
   postgres:
     image: postgres:12
     environment:
