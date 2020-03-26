@@ -1,5 +1,7 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { getRepository } from 'typeorm';
+import { Metric } from './entities/metrics';
 
 dotenv.config();
 
@@ -56,12 +58,13 @@ export default async function () {
 		const lists: List[] = await trello.get(
 			'/boards/5e7b45a57d89161bd87eb0ba/lists',
 		);
+
 		const cards: Card[] = await trello.get(
 			'/boards/5e7b45a57d89161bd87eb0ba/cards',
 		);
 
 		const regex = /\(([0-9]+)\).*\[([0-9]+)\]/;
-		cards.reduce(
+		const { estimated, worked } = cards.reduce(
 			(previous, card) => {
 				const list = lists.find((list) => list.id === card.idList);
 				if (list) {
@@ -79,6 +82,12 @@ export default async function () {
 			},
 			{ estimated: 0, worked: 0 },
 		);
+
+		const metricRepository = getRepository(Metric);
+		await metricRepository.save({
+			estimated,
+			worked,
+		});
 	} catch (e) {
 		console.error(e);
 	}

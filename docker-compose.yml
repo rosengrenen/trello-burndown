@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: packages/backend/dev.Dockerfile
     image: rsrp/trello-burndown-backend:latest-dev
+    ports:
+      - ${BACKEND_PORT}:3000
     volumes:
       - /usr/src/app/packages/backend/node_modules
       - ./packages/backend:/usr/src/app/packages/backend
@@ -18,5 +20,17 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - ${PGADMIN_PORT}:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      SCRIPT_NAME: /pgadmin
+    volumes:
+      - pgadmindata:/usr/lib/pgadmin
+
 volumes:
   pgdata:
+  pgadmindata:
