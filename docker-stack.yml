@@ -1,0 +1,43 @@
+version: "3"
+services:
+  frontend:
+    image: rsrp/trello-burndown-frontend:latest
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.trello-burndown-frontend.rule=Host(`trello-burndown.${DOMAIN}`)
+        - traefik.http.routers.trello-burndown-frontend.entryPoints=https
+        - traefik.http.routers.trello-burndown-frontend.tls=true
+        - traefik.http.routers.trello-burndown-frontend.tls.certresolver=letsencrypt
+        - traefik.http.services.trello-burndown-frontend.loadbalancer.server.port=80
+
+  backend:
+    image: rsrp/trello-burndown-backend:latest
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.trello-burndown-backend.rule=Host(`trello-burndown.${DOMAIN}`) && Path(`/graphql`)
+        - traefik.http.routers.trello-burndown-backend.entryPoints=https
+        - traefik.http.routers.trello-burndown-backend.tls=true
+        - traefik.http.routers.trello-burndown-backend.tls.certresolver=letsencrypt
+        - traefik.http.services.trello-burndown-backend.loadbalancer.server.port=3000
+
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USERNAME}
+    volumes:
+      - ${PG_DATA_FOLDER}:/var/lib/postgresql/data
