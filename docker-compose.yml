@@ -1,5 +1,16 @@
 version: "3"
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/frontend/dev.Dockerfile
+    image: rsrp/trello-burndown-frontend:latest-dev
+    ports:
+      - ${FRONTEND_PORT}:3000
+    volumes:
+      - /usr/src/app/packages/frontend/node_modules
+      - ./packages/frontend:/usr/src/app/packages/frontend
+
   backend:
     build:
       context: .

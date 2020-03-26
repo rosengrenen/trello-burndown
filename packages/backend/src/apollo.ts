@@ -3,7 +3,7 @@ import { buildSchema } from 'type-graphql';
 
 export default async function createApolloServer() {
 	const schema = await buildSchema({
-		resolvers: [__dirname + '/modules/**/*.resolver.ts'],
+		resolvers: [__dirname + '/modules/**/*.resolver.{js,ts}'],
 	});
 
 	return new ApolloServer({ schema });
