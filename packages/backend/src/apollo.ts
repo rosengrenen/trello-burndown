@@ -6,5 +6,5 @@ export default async function createApolloServer() {
 		resolvers: [__dirname + '/modules/**/*.resolver.{js,ts}'],
 	});
 
-	return new ApolloServer({ schema });
+	return new ApolloServer({ cors: true, schema });
 }

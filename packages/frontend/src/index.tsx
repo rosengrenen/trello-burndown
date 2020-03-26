@@ -1,5 +1,9 @@
+import App from './components/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const rootNode = document.getElementById('root');
-ReactDOM.render(<div>Hello React</div>, rootNode);
+ReactDOM.render(<App />, document.getElementById('root'));
+
+if (module.hot) {
+	module.hot.accept();
+}
